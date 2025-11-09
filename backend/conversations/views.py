@@ -171,7 +171,8 @@ class ConversationViewSet(viewsets.ModelViewSet):
             )
             
             # Update conversation title if it's the first exchange
-            if conversation.message_count == 2 and not conversation.title:
+            # use the model helper instead of a non-existent attribute
+            if conversation.get_message_count() == 2 and not conversation.title:
                 # Generate title from first message
                 title = user_message[:50] + ('...' if len(user_message) > 50 else '')
                 conversation.title = title
@@ -189,6 +190,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
                 'error': 'Conversation not found'
             }, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
+            print(e)
             return Response({
                 'success': False,
                 'error': f'Error processing message: {str(e)}'
