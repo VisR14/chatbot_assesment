@@ -1,0 +1,2 @@
+# Chat Portal Django Application
+
